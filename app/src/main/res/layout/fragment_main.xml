@@ -55,7 +55,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvSummary"
         tools:text="14.02.22 22:08" />
 
-
     <TextView
         android:id="@+id/tvTextTimeStats"
         android:layout_width="wrap_content"
@@ -74,13 +73,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        tools:listitem="@layout/item_hourly_weather"
+        android:clipToPadding="true"
         android:foregroundGravity="center"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/tvTextWeekWeather"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:listitem="@layout/item_hourly_weather" />
 
     <TextView
         android:id="@+id/tvTextWeekWeather"
@@ -100,8 +100,13 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:clipToPadding="true"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:spanCount="2"
+        tools:listitem="@layout/item_weak_day_weather" />
 </androidx.constraintlayout.widget.ConstraintLayout>
