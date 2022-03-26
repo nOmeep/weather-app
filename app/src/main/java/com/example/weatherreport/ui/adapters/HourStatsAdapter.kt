@@ -16,6 +16,8 @@ class HourStatsAdapter : RecyclerView.Adapter<HourStatsAdapter.HourStatsViewHold
                 tvHour.text = hour.time
                 tvFeelsLike.text = hour.feelslike_c.toString()
                 tvTemperature.text = hour.temp_c.toString()
+
+                
             }
         }
     }

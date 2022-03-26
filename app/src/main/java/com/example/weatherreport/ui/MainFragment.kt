@@ -29,14 +29,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val weekDayAdapter = WeekWeatherAdapter()
         binding.rvWeekWeather.adapter = weekDayAdapter
 
-        viewModel.showWeather().observe(viewLifecycleOwner) {
-            binding.tvCityName.text = it.location.name
-            binding.tvTemperature.text = it.current.temp_c.toString()
-            binding.tvSummary.text = it.current.condition.text
-            binding.tvLastUpdateTime.text = it.current.last_updated
+        viewModel.showWeather().observe(viewLifecycleOwner) { resource ->
+            if (resource.data != null && resource.data.isNotEmpty()) {
+                binding.tvCityName.text = resource.data[0].location.name
+                binding.tvTemperature.text = resource.data[0].current.temp_c.toString()
+                binding.tvSummary.text = resource.data[0].current.condition.text
+                binding.tvLastUpdateTime.text = resource.data[0].current.last_updated
 
-            hourAdapter.submitList(it.forecast.forecastday[0].hour)
-            weekDayAdapter.submitList(it.forecast.forecastday.drop(1))
+                hourAdapter.submitList(resource.data[0].forecast.forecastday[0].hour)
+                weekDayAdapter.submitList(resource.data[0].forecast.forecastday)
+            }
         }
     }
 }

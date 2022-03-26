@@ -1,12 +1,24 @@
 package com.example.weatherreport.data.api.items
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.weatherreport.data.api.items.typeconverters.ForecastTypeConverter
+
+@Entity(tableName = "cached_weather_items")
 data class WeatherItem(
+    @Embedded
     val current: Current,
+    @Embedded
     val forecast: Forecast,
+    @Embedded
+    @PrimaryKey(autoGenerate = false)
     val location: Location
 ) {
     data class Current(
         val cloud: Double,
+        @Embedded
         val condition: Condition,
         val feelslike_c: Double,
         val feelslike_f: Double,
@@ -38,7 +50,8 @@ data class WeatherItem(
     }
 
     data class Forecast(
-        val forecastday: List<Forecastday>
+        @TypeConverters(ForecastTypeConverter::class)
+        var forecastday: List<Forecastday>
     ) {
         data class Forecastday(
             val astro: Astro,

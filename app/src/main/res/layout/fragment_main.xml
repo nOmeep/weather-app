@@ -71,11 +71,9 @@
                 android:layout_marginVertical="8dp"
                 android:text="@string/WeatherHoleDay"
                 android:textSize="20sp"
-                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/rvStatsPerHour"
                 app:layout_constraintEnd_toEndOf="@+id/rvStatsPerHour"
-                app:layout_constraintStart_toStartOf="@+id/rvStatsPerHour"
-                tools:visibility="visible" />
+                app:layout_constraintStart_toStartOf="@+id/rvStatsPerHour" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvStatsPerHour"
@@ -98,11 +96,9 @@
                 android:layout_marginVertical="8dp"
                 android:text="@string/WeekWeatherText"
                 android:textSize="20sp"
-                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/rvWeekWeather"
                 app:layout_constraintEnd_toEndOf="@+id/rvWeekWeather"
-                app:layout_constraintStart_toStartOf="@+id/rvWeekWeather"
-                tools:visibility="visible" />
+                app:layout_constraintStart_toStartOf="@+id/rvWeekWeather" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvWeekWeather"

@@ -1,26 +1,21 @@
 package com.example.weatherreport.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.asLiveData
 import com.example.weatherreport.BuildConfig
-import com.example.weatherreport.data.api.items.WeatherItem
 import com.example.weatherreport.data.repo.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository
 ) : ViewModel() {
-    private var weatherStats = MutableLiveData<WeatherItem>()
+    private var weatherStatsLiveData = repository.getCurrentCityWeather("Москва", BuildConfig.API_KEY).asLiveData()
 
-    init {
-        viewModelScope.launch {
-            weatherStats.value = repository.getWeather("Москва", BuildConfig.API_KEY)
-        }
+    fun showWeather() = weatherStatsLiveData
+
+    fun updateWeather(query: String) {
+        weatherStatsLiveData = repository.getCurrentCityWeather(query, BuildConfig.API_KEY).asLiveData()
     }
-
-    fun showWeather() = weatherStats
 }

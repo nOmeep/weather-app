@@ -1,10 +1,7 @@
 package com.example.weatherreport.data.api
 
-import com.example.weatherreport.BuildConfig
 import com.example.weatherreport.data.api.items.WeatherItem
 import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface WeatherAPI {
