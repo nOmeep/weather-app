@@ -1,6 +1,6 @@
 package com.example.weatherreport.di
 
-import com.example.weatherreport.data.api.YandexWeatherAPI
+import com.example.weatherreport.data.api.WeatherAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +14,9 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideRetrofit(): YandexWeatherAPI = Retrofit.Builder()
-        .baseUrl(YandexWeatherAPI.BASE_URL)
+    fun provideRetrofit(): WeatherAPI = Retrofit.Builder()
+        .baseUrl(WeatherAPI.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(YandexWeatherAPI::class.java)
+        .create(WeatherAPI::class.java)
 }
