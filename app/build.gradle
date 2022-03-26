@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.secrets_gradle_plugin' version '0.4'
 }
 
 android {
@@ -35,6 +36,15 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+    buildTypes {
+        debug {
+            resValue("string", "api_key", localProperties['API_KEY'])
+        }
     }
 }
 
@@ -72,5 +82,6 @@ dependencies {
     //Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
 }
