@@ -15,6 +15,8 @@ class WeekWeatherAdapter : RecyclerView.Adapter<WeekWeatherAdapter.WeekWeatherVi
             binding.apply {
                 tvDate.text = dayForecast.date
                 tvWeather.text = "${dayForecast.day.avgtemp_c}"
+
+
             }
         }
     }

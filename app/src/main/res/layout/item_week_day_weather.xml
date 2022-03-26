@@ -17,6 +17,7 @@
         android:padding="8dp">
 
         <ImageView
+            android:id="@+id/ivDayWeatherImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
             tools:src="@drawable/ic_launcher_background" />
