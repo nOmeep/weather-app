@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.weatherreport.data.api.items.WeatherItem.Forecast.Forecastday
 import com.example.weatherreport.databinding.ItemWeekDayWeatherBinding
 
@@ -16,7 +17,9 @@ class WeekWeatherAdapter : RecyclerView.Adapter<WeekWeatherAdapter.WeekWeatherVi
                 tvDate.text = dayForecast.date
                 tvWeather.text = "${dayForecast.day.avgtemp_c}"
 
-
+                Glide.with(itemView)
+                    .load("https:${dayForecast.day.condition.icon}")
+                    .into(ivDayWeatherImage)
             }
         }
     }

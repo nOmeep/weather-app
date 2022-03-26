@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.weatherreport.data.api.items.WeatherItem.Forecast.Forecastday.Hour
 import com.example.weatherreport.databinding.ItemHourlyWeatherBinding
 
@@ -17,7 +18,9 @@ class HourStatsAdapter : RecyclerView.Adapter<HourStatsAdapter.HourStatsViewHold
                 tvFeelsLike.text = hour.feelslike_c.toString()
                 tvTemperature.text = hour.temp_c.toString()
 
-                
+                Glide.with(itemView)
+                    .load("https:${hour.condition.icon}")
+                    .into(ivHourIcon)
             }
         }
     }
