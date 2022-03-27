@@ -4,6 +4,7 @@ import androidx.room.withTransaction
 import com.example.weatherreport.data.api.WeatherAPI
 import com.example.weatherreport.data.db.WeatherDatabase
 import com.example.weatherreport.util.networkBoundResource
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
@@ -17,11 +18,12 @@ class WeatherRepository @Inject constructor(
             weatherDAO.getCachedItems()
         },
         fetch = {
+            delay(500)
             api.getWeather(key, query)
         },
         saveFetchResult = { weatherItem ->
             db.withTransaction {
-                weatherDAO.deleteWeatherItemByCityName(weatherItem.location.name)
+                weatherDAO.deleteLastCachedCity()
                 weatherDAO.cacheWeatherItem(weatherItem)
             }
         }

@@ -14,7 +14,7 @@ class HourStatsAdapter : RecyclerView.Adapter<HourStatsAdapter.HourStatsViewHold
         RecyclerView.ViewHolder(binding.root) {
         fun bind(hour: Hour) {
             binding.apply {
-                tvHour.text = hour.time
+                tvHour.text = hour.time.split(" ")[1]
                 tvFeelsLike.text = hour.feelslike_c.toString()
                 tvTemperature.text = hour.temp_c.toString()
 

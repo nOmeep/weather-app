@@ -6,15 +6,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherItemsDAO {
-    @Query("select * from cached_weather_items")
+    @Query("select * from last_cached_page")
     fun getCachedItems(): Flow<List<WeatherItem>>
-
-    @Query("select * from cached_weather_items where name =:name limit 1")
-    fun getCachedCityByName(name: String) : Flow<WeatherItem>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun cacheWeatherItem(item: WeatherItem)
 
-    @Query("delete from cached_weather_items where name = :name")
-    suspend fun deleteWeatherItemByCityName(name: String)
+    @Query("delete from last_cached_page")
+    suspend fun deleteLastCachedCity()
 }
