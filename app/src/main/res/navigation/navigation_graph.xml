@@ -8,6 +8,18 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.weatherreport.ui.fragments.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        android:label="Погода в городе"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/from_main_fragment_to_search_fragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.weatherreport.ui.fragments.SearchFragment"
+        android:label="Поиск"
+        tools:layout="@layout/fragment_search" />
 </navigation>

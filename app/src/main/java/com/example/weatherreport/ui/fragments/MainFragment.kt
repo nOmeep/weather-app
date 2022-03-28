@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.weatherreport.R
 import com.example.weatherreport.databinding.FragmentMainBinding
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
@@ -29,6 +30,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
+
+        binding.ivChange.setOnClickListener {
+            val action = MainFragmentDirections.fromMainFragmentToSearchFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onStart() {
