@@ -9,7 +9,14 @@
         android:id="@+id/mainFragment"
         android:name="com.example.weatherreport.ui.fragments.MainFragment"
         android:label="Погода в городе"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
+
+        <argument
+            android:name="weatherItem"
+            app:argType=".data.api.items.WeatherItem"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+
         <action
             android:id="@+id/from_main_fragment_to_search_fragment"
             app:destination="@id/searchFragment"
@@ -22,5 +29,16 @@
         android:id="@+id/searchFragment"
         android:name="com.example.weatherreport.ui.fragments.SearchFragment"
         android:label="Поиск"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/from_search_fragment_to_main_fragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/navigation_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

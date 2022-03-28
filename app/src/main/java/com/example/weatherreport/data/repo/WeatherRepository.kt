@@ -28,4 +28,6 @@ class WeatherRepository @Inject constructor(
             }
         }
     )
+
+    fun getAllCachedItems() = weatherDAO.getAllCachedItems()
 }
