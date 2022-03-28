@@ -28,15 +28,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Sample city name" />
 
-    <ImageView
-        android:id="@+id/ivChange"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="4dp"
-        android:src="@drawable/ic_change_city_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tvTemperature"
         android:layout_width="wrap_content"

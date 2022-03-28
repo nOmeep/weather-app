@@ -1,6 +1,9 @@
 package com.example.weatherreport.ui.fragments
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -31,10 +34,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
 
-        binding.ivChange.setOnClickListener {
-            val action = MainFragmentDirections.fromMainFragmentToSearchFragment()
-            findNavController().navigate(action)
-        }
+        setHasOptionsMenu(true)
     }
 
     override fun onStart() {
@@ -54,6 +54,21 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             binding.tvTextTimeStats.isVisible = true
             binding.tvTextWeekWeather.isVisible = true
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miSearchForCity -> {
+                val action = MainFragmentDirections.fromMainFragmentToSearchFragment()
+                findNavController().navigate(action)
+            }
+        }
+        return true
     }
 
     override fun onDestroy() {

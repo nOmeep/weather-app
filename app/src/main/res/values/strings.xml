@@ -6,4 +6,5 @@
     <string name="WeekWeatherText">Погода на неделю</string>
     <string name="search_for_city">Поиск города</string>
     <string name="enter_city_name">Введите название города</string>
+    <string name="change_place">Изменить место</string>
 </resources>
