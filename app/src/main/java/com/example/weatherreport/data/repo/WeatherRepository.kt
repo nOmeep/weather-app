@@ -15,7 +15,7 @@ class WeatherRepository @Inject constructor(
 
     fun getCurrentCityWeather(query: String, key: String) = networkBoundResource(
         query = {
-            weatherDAO.getCachedItems()
+            weatherDAO.getCityByName(query)
         },
         fetch = {
             delay(500)

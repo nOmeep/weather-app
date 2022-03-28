@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.example.weatherreport.data.api.items.WeatherItem.Forecast.Forecastday
 import com.example.weatherreport.databinding.ItemWeekDayWeatherBinding
 import com.example.weatherreport.util.getDayOfTheWeek
-import java.util.*
 
 class WeekWeatherAdapter : RecyclerView.Adapter<WeekWeatherAdapter.WeekWeatherViewHolder>() {
     inner class WeekWeatherViewHolder(private val binding: ItemWeekDayWeatherBinding) :

@@ -4,4 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="WeatherHoleDay">Погода в течение дня</string>
     <string name="WeekWeatherText">Погода на неделю</string>
+    <string name="search_for_city">Поиск города</string>
+    <string name="enter_city_name">Введите название города</string>
 </resources>

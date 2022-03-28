@@ -29,22 +29,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
-
-        viewModel.getWeather("Moscow").observe(viewLifecycleOwner) { resource ->
-            binding.pbLoading.isVisible = resource is Loading
-            val weatherItem = resource.data?.firstOrNull() ?: return@observe
-
-            binding.tvCityName.text = weatherItem.location.name
-            binding.tvTemperature.text = weatherItem.current.temp_c.toString()
-            binding.tvSummary.text = weatherItem.current.condition.text
-            binding.tvLastUpdateTime.text = weatherItem.current.last_updated
-
-            hourAdapter.submitList(weatherItem.forecast.forecastday[2].hour)
-            weekDayAdapter.submitList(weatherItem.forecast.forecastday)
-
-            binding.tvTextTimeStats.isVisible = true
-            binding.tvTextWeekWeather.isVisible = true
-        }
     }
 
     override fun onStart() {
@@ -58,7 +42,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             binding.tvSummary.text = weatherItem.current.condition.text
             binding.tvLastUpdateTime.text = weatherItem.current.last_updated
 
-            hourAdapter.submitList(weatherItem.forecast.forecastday[2].hour)
+            hourAdapter.submitList(weatherItem.forecast.forecastday[0].hour)
             weekDayAdapter.submitList(weatherItem.forecast.forecastday)
 
             binding.tvTextTimeStats.isVisible = true
