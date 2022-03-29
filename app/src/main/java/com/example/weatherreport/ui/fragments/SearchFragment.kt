@@ -10,6 +10,7 @@ import com.example.weatherreport.R
 import com.example.weatherreport.data.api.items.WeatherItem
 import com.example.weatherreport.databinding.FragmentSearchBinding
 import com.example.weatherreport.ui.adapters.CachedItemsAdapter
+import com.example.weatherreport.ui.fragments.listeners.OnSearchListener
 import com.example.weatherreport.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,17 +35,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         binding.rvCachedItems.adapter = searchedItemsAdapter
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    findNavController().navigate(
-                        SearchFragmentDirections.fromSearchFragmentToMainFragment(query)
-                    )
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(p0: String?) = false
+        binding.searchView.setOnQueryTextListener(OnSearchListener { query: String ->
+            findNavController().navigate(
+                SearchFragmentDirections.fromSearchFragmentToMainFragment(query)
+            )
         })
 
         viewModel.getAllCachedItems().observe(viewLifecycleOwner) { cachedResource ->
