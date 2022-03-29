@@ -13,9 +13,9 @@
 
         <argument
             android:name="weatherItem"
-            app:argType=".data.api.items.WeatherItem"
-            app:nullable="true"
-            android:defaultValue="@null"/>
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
 
         <action
             android:id="@+id/from_main_fragment_to_search_fragment"

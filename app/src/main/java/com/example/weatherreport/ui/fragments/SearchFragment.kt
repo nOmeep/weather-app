@@ -24,7 +24,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private val searchedItemsAdapter =
         CachedItemsAdapter { wi: WeatherItem ->
             findNavController().navigate(
-                SearchFragmentDirections.fromSearchFragmentToMainFragment(wi)
+                SearchFragmentDirections.fromSearchFragmentToMainFragment(wi.location.name)
             )
         }
 

@@ -1,14 +1,12 @@
 package com.example.weatherreport.data.api.items
 
-import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.weatherreport.data.api.items.typeconverters.ForecastTypeConverter
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
+
 @Entity(tableName = "last_cached_page")
 data class WeatherItem(
     @Embedded
@@ -18,8 +16,7 @@ data class WeatherItem(
     @Embedded
     @PrimaryKey(autoGenerate = false)
     val location: Location
-) : Parcelable {
-    @Parcelize
+) {
     data class Current(
         val cloud: Double,
         @Embedded
@@ -45,30 +42,26 @@ data class WeatherItem(
         val wind_dir: String,
         val wind_kph: Double,
         val wind_mph: Double
-    ) : Parcelable {
+    ) {
 
-        @Parcelize
         data class Condition(
             val code: Double,
             val icon: String,
             val text: String
-        ) : Parcelable
+        )
     }
 
-    @Parcelize
     data class Forecast(
         @TypeConverters(ForecastTypeConverter::class)
         var forecastday: List<Forecastday>
-    ) : Parcelable {
-        @Parcelize
+    ) {
         data class Forecastday(
             val astro: Astro,
             val date: String,
             val date_epoch: Double,
             val day: Day,
             val hour: List<Hour>
-        ) : Parcelable {
-            @Parcelize
+        ) {
             data class Astro(
                 val moon_illumination: String,
                 val moon_phase: String,
@@ -76,9 +69,8 @@ data class WeatherItem(
                 val moonset: String,
                 val sunrise: String,
                 val sunset: String
-            ) : Parcelable
+            )
 
-            @Parcelize
             data class Day(
                 val avghumidity: Double,
                 val avgtemp_c: Double,
@@ -99,16 +91,14 @@ data class WeatherItem(
                 val totalprecip_in: Double,
                 val totalprecip_mm: Double,
                 val uv: Double
-            ) : Parcelable {
-                @Parcelize
+            ) {
                 data class ConditionX(
                     val code: Double,
                     val icon: String,
                     val text: String
-                ) : Parcelable
+                )
             }
 
-            @Parcelize
             data class Hour(
                 val chance_of_rain: Double,
                 val chance_of_snow: Double,
@@ -143,18 +133,17 @@ data class WeatherItem(
                 val wind_mph: Double,
                 val windchill_c: Double,
                 val windchill_f: Double
-            ) : Parcelable {
-                @Parcelize
+            ) {
                 data class ConditionXX(
                     val code: Double,
                     val icon: String,
                     val text: String
-                ) : Parcelable
+                )
             }
         }
     }
 
-    @Parcelize
+
     data class Location(
         val country: String,
         val lat: Double,
@@ -164,5 +153,5 @@ data class WeatherItem(
         val name: String,
         val region: String,
         val tz_id: String
-    ) : Parcelable
+    )
 }
