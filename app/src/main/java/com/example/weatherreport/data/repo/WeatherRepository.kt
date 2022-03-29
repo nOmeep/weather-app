@@ -4,7 +4,6 @@ import androidx.room.withTransaction
 import com.example.weatherreport.data.api.WeatherAPI
 import com.example.weatherreport.data.db.WeatherDatabase
 import com.example.weatherreport.util.networkBoundResource
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(

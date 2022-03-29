@@ -1,7 +1,6 @@
 package com.example.weatherreport.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -12,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.weatherreport.R
-import com.example.weatherreport.data.api.items.WeatherItem
 import com.example.weatherreport.databinding.FragmentMainBinding
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
 import com.example.weatherreport.ui.adapters.WeekWeatherAdapter
@@ -40,33 +38,28 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
 
-        viewModel.getWeather("Москва").observe(viewLifecycleOwner) { resource ->
-            binding.pbLoading.isVisible = resource is Loading
-
-            Log.d("SUS", resource.data.toString())
-
-            val weatherItem = resource.data?.firstOrNull() ?: return@observe
-
-            binding.tvCityName.text = weatherItem.location.name
-            binding.tvTemperature.text = weatherItem.current.temp_c.toString()
-            binding.tvSummary.text = weatherItem.current.condition.text
-            binding.tvLastUpdateTime.text = weatherItem.current.last_updated
-
-            hourAdapter.submitList(weatherItem.forecast.forecastday[0].hour)
-            weekDayAdapter.submitList(mutableListOf<WeatherItem.Forecast.Forecastday>().apply {
-                addAll(weatherItem.forecast.forecastday)
-                addAll(weatherItem.forecast.forecastday)
-            })
-
-            binding.tvTextTimeStats.isVisible = true
-            binding.tvTextWeekWeather.isVisible = true
-        }
-
         setHasOptionsMenu(true)
     }
 
     override fun onStart() {
         super.onStart()
+        viewModel.updateWeather(args.weatherItem ?: "Москва")
+            .observe(viewLifecycleOwner) { resource ->
+                binding.pbLoading.isVisible = resource is Loading
+
+                val weatherItem = resource.data?.firstOrNull() ?: return@observe
+
+                binding.tvCityName.text = weatherItem.location.name
+                binding.tvTemperature.text = weatherItem.current.temp_c.toString()
+                binding.tvSummary.text = weatherItem.current.condition.text
+                binding.tvLastUpdateTime.text = weatherItem.current.last_updated
+
+                hourAdapter.submitList(weatherItem.forecast.forecastday[0].hour)
+                weekDayAdapter.submitList(weatherItem.forecast.forecastday)
+
+                binding.tvTextTimeStats.isVisible = true
+                binding.tvTextWeekWeather.isVisible = true
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
