@@ -18,12 +18,11 @@ class WeatherRepository @Inject constructor(
             weatherDAO.getCityByName(query)
         },
         fetch = {
-            delay(500)
             api.getWeather(key, query)
         },
         saveFetchResult = { weatherItem ->
             db.withTransaction {
-                weatherDAO.deleteLastCachedCity()
+                weatherDAO.deleteCityByName(weatherItem.location.name)
                 weatherDAO.cacheWeatherItem(weatherItem)
             }
         }

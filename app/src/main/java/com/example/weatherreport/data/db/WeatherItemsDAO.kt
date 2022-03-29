@@ -15,6 +15,6 @@ interface WeatherItemsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun cacheWeatherItem(item: WeatherItem)
 
-    @Query("delete from last_cached_page")
-    suspend fun deleteLastCachedCity()
+    @Query("delete from last_cached_page where name = :name")
+    suspend fun deleteCityByName(name: String)
 }

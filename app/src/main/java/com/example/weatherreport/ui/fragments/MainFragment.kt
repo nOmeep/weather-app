@@ -1,6 +1,7 @@
 package com.example.weatherreport.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -39,13 +40,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
 
-        setHasOptionsMenu(true)
-    }
-
-    override fun onStart() {
-        super.onStart()
         viewModel.getWeather("Москва").observe(viewLifecycleOwner) { resource ->
             binding.pbLoading.isVisible = resource is Loading
+
+            Log.d("SUS", resource.data.toString())
+
             val weatherItem = resource.data?.firstOrNull() ?: return@observe
 
             binding.tvCityName.text = weatherItem.location.name
@@ -62,6 +61,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             binding.tvTextTimeStats.isVisible = true
             binding.tvTextWeekWeather.isVisible = true
         }
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
