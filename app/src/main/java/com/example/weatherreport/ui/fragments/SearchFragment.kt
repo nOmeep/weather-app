@@ -2,7 +2,7 @@ package com.example.weatherreport.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -42,6 +42,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         })
 
         viewModel.getAllCachedItems().observe(viewLifecycleOwner) { cachedResource ->
+            binding.tvEmptyList.isVisible = cachedResource.isEmpty()
             searchedItemsAdapter.submitList(cachedResource)
         }
     }

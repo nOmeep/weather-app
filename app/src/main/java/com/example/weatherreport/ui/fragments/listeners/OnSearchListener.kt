@@ -6,7 +6,7 @@ class OnSearchListener(
     private val shift: (name: String) -> Unit
 ) : SearchView.OnQueryTextListener {
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
+        if (!query.isNullOrBlank()) {
             shift.invoke(query)
         }
         return true

@@ -12,12 +12,12 @@ class WeatherRepository @Inject constructor(
 ) {
     private val weatherDAO = db.weatherItemsDAO()
 
-    fun getCurrentCityWeather(query: String, key: String) = networkBoundResource(
+    fun getCurrentCityWeather(cityName: String, key: String) = networkBoundResource(
         query = {
-            weatherDAO.getCityByName(query)
+            weatherDAO.getCityByName(cityName)
         },
         fetch = {
-            api.getWeather(key, query)
+            api.getWeather(key, cityName)
         },
         saveFetchResult = { weatherItem ->
             db.withTransaction {

@@ -143,7 +143,6 @@ data class WeatherItem(
         }
     }
 
-
     data class Location(
         val country: String,
         val lat: Double,

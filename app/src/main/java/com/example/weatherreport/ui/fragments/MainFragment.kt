@@ -14,6 +14,7 @@ import com.example.weatherreport.R
 import com.example.weatherreport.databinding.FragmentMainBinding
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
 import com.example.weatherreport.ui.adapters.WeekWeatherAdapter
+import com.example.weatherreport.util.Resource.Error
 import com.example.weatherreport.util.Resource.Loading
 import com.example.weatherreport.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,9 +44,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onStart() {
         super.onStart()
-        viewModel.updateWeather(args.weatherItem ?: "Москва")
+        viewModel.updateWeather(args.weatherItem)
             .observe(viewLifecycleOwner) { resource ->
                 binding.pbLoading.isVisible = resource is Loading
+                binding.tvError.isVisible = resource is Error && resource.data.isNullOrEmpty()
 
                 val weatherItem = resource.data?.firstOrNull() ?: return@observe
 
