@@ -44,7 +44,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onStart() {
         super.onStart()
-        viewModel.updateWeather(args.weatherItem)
+        viewModel.updateWeather(args.cityName)
             .observe(viewLifecycleOwner) { resource ->
                 binding.pbLoading.isVisible = resource is Loading
                 binding.tvError.isVisible = resource is Error && resource.data.isNullOrEmpty()

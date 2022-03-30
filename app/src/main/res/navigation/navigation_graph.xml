@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_main">
 
         <argument
-            android:name="weatherItem"
+            android:name="cityName"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
