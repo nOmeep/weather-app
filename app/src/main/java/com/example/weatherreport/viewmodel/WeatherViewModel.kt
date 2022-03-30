@@ -12,8 +12,8 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository
 ) : ViewModel() {
-    fun updateWeather(query: String?) =
-        repository.getCurrentCityWeather(Wrapper(query ?: "Москва"), BuildConfig.API_KEY)
+    fun updateWeather(query: String?, cityToShow : String) =
+        repository.getCurrentCityWeather(Wrapper(query ?: cityToShow), BuildConfig.API_KEY)
             .asLiveData()
 
     fun getAllCachedItems() =

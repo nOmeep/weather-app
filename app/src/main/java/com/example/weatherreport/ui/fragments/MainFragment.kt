@@ -1,5 +1,7 @@
 package com.example.weatherreport.ui.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -33,18 +35,25 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val hourAdapter = HourStatsAdapter()
     private val weekDayAdapter = WeekWeatherAdapter()
 
+    private lateinit var sharedPref: SharedPreferences
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentMainBinding.bind(view)
 
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
 
+        sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+
         setHasOptionsMenu(true)
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.updateWeather(args.cityName)
+
+        val cityToShow = sharedPref.getString("LAST_CITY", "Moscow") ?: "Moscow"
+
+        viewModel.updateWeather(args.cityName, cityToShow)
             .observe(viewLifecycleOwner) { resource ->
                 binding.pbLoading.isVisible = resource is Loading
                 binding.tvError.isVisible = resource is Error && resource.data.isNullOrEmpty()
@@ -61,6 +70,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
                 binding.tvTextTimeStats.isVisible = true
                 binding.tvTextWeekWeather.isVisible = true
+
+                with(sharedPref.edit()) {
+                    putString("LAST_CITY", weatherItem.location.name)
+                    apply()
+                }
             }
     }
 
