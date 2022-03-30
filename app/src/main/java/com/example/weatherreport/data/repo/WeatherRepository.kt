@@ -22,8 +22,9 @@ class WeatherRepository @Inject constructor(
         },
         saveFetchResult = { weatherItem ->
             db.withTransaction {
+                weatherDAO.deleteCityByName(cityName.value)
                 cityName.changeValue(weatherItem.location.name)
-                weatherDAO.deleteCityByName(weatherItem.location.name)
+                weatherDAO.deleteCityByName(cityName.value)
                 weatherDAO.cacheWeatherItem(weatherItem)
             }
         }

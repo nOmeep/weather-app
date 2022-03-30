@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.weatherreport.data.api.items.typeconverters.ForecastTypeConverter
 
-
 @Entity(tableName = "last_cached_page")
 data class WeatherItem(
     @Embedded
