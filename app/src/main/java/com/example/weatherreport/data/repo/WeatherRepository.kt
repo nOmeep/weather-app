@@ -31,4 +31,6 @@ class WeatherRepository @Inject constructor(
     )
 
     fun getAllCachedItems() = weatherDAO.getAllCachedItems()
+
+    suspend fun deleteItemByName(cityName: String) = weatherDAO.deleteCityByName(cityName)
 }

@@ -6,6 +6,7 @@ import com.example.weatherreport.BuildConfig
 import com.example.weatherreport.data.repo.WeatherRepository
 import com.example.weatherreport.util.Wrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,4 +19,10 @@ class WeatherViewModel @Inject constructor(
 
     fun getAllCachedItems() =
         repository.getAllCachedItems().asLiveData()
+
+    fun removeItemByName(name: String) {
+        runBlocking {
+            repository.deleteItemByName(name)
+        }
+    }
 }
