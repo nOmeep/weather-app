@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import com.example.weatherreport.util.constants.Constants
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,20 +17,19 @@ import com.example.weatherreport.R
 import com.example.weatherreport.databinding.FragmentMainBinding
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
 import com.example.weatherreport.ui.adapters.WeekWeatherAdapter
-import com.example.weatherreport.util.Resource.Error
-import com.example.weatherreport.util.Resource.Loading
+import com.example.weatherreport.util.classes.Resource.Error
+import com.example.weatherreport.util.classes.Resource.Loading
+import com.example.weatherreport.util.funs.coordinatesToQuery
 import com.example.weatherreport.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
-
     private var _binding: FragmentMainBinding? = null
     private val binding
         get() = _binding!!
 
     private val viewModel by viewModels<WeatherViewModel>()
-
     private val args: MainFragmentArgs by navArgs()
 
     private val hourAdapter = HourStatsAdapter()
@@ -51,7 +51,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onStart() {
         super.onStart()
 
-        val cityToShow = sharedPref.getString("LAST_CITY", "Moscow") ?: "Moscow"
+        val cityToShow =
+            sharedPref.getString(Constants.SHARED_PREF_CITY_KEY, null) ?: Constants.DEFAULT_CITY
 
         viewModel.updateWeather(args.cityName, cityToShow)
             .observe(viewLifecycleOwner) { resource ->
@@ -72,7 +73,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 binding.tvTextWeekWeather.isVisible = true
 
                 with(sharedPref.edit()) {
-                    putString("LAST_CITY", weatherItem.location.name)
+                    putString(Constants.SHARED_PREF_CITY_KEY, weatherItem.location.name)
                     apply()
                 }
             }
@@ -86,8 +87,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.miSearchForCity -> {
-                val action = MainFragmentDirections.fromMainFragmentToSearchFragment()
-                findNavController().navigate(action)
+                findNavController().navigate(MainFragmentDirections.fromMainFragmentToSearchFragment())
             }
         }
         return true

@@ -1,12 +1,12 @@
-package com.example.weatherreport.util
+package com.example.weatherreport.util.funs
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-fun getDayOfTheWeek(date: String): String {
+fun String.getDayOfTheWeek(): String {
     val c = Calendar.getInstance()
-    c.time = SimpleDateFormat("yyyy-mm-dd").parse(date)
-    return when(c.get(Calendar.DAY_OF_WEEK)) {
+    c.time = SimpleDateFormat("yyyy-mm-dd").parse(this)
+    return when (c.get(Calendar.DAY_OF_WEEK)) {
         Calendar.MONDAY -> "ЧТ"
         Calendar.TUESDAY -> "ПТ"
         Calendar.WEDNESDAY -> "СБ"
@@ -17,3 +17,6 @@ fun getDayOfTheWeek(date: String): String {
         else -> "Error"
     }
 }
+
+fun coordinatesToQuery(lat: Float, lon: Float): String? =
+    if (!(lat == 0f && lon == 0f)) "$lat,$lon" else null

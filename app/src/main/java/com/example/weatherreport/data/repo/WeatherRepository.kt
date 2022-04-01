@@ -3,8 +3,8 @@ package com.example.weatherreport.data.repo
 import androidx.room.withTransaction
 import com.example.weatherreport.data.api.WeatherAPI
 import com.example.weatherreport.data.db.WeatherDatabase
-import com.example.weatherreport.util.Wrapper
-import com.example.weatherreport.util.networkBoundResource
+import com.example.weatherreport.util.classes.Wrapper
+import com.example.weatherreport.util.funs.networkBoundResource
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
