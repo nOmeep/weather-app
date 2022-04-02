@@ -1,4 +1,4 @@
-package com.example.weatherreport.viewmodel
+package com.example.weatherreport.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

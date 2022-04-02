@@ -148,7 +148,7 @@ data class WeatherItem(
         val localtime: String,
         val localtime_epoch: Double,
         val lon: Double,
-        var name: String,
+        val name: String,
         val region: String,
         val tz_id: String
     )
