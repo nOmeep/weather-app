@@ -32,26 +32,18 @@ fun FragmentMainBinding.bind(
     myPreferences: MyPreferences
 ) {
     val weatherItem = resource.data?.firstOrNull()
-    when (resource) {
-        is Resource.Success -> {
-            this.pbLoading.isVisible = false
+    if (weatherItem != null) {
+        this.pbLoading.isVisible = resource is Resource.Loading
+        this.tvError.isVisible = resource is Resource.Error && resource.data.isEmpty()
 
-            this.tvCityName.text = weatherItem!!.location.name
-            this.tvTemperature.text = weatherItem.current.temp_c.toString()
-            this.tvSummary.text = weatherItem.current.condition.text
-            this.tvLastUpdateTime.text = weatherItem.current.last_updated
+        this.tvCityName.text = weatherItem.location.name
+        this.tvTemperature.text = weatherItem.current.temp_c.toString()
+        this.tvSummary.text = weatherItem.current.condition.text
+        this.tvLastUpdateTime.text = weatherItem.current.last_updated
 
-            hourAdapter.submitList(weatherItem.forecast.forecastday[0].hour)
-            weekDayAdapter.submitList(weatherItem.forecast.forecastday)
+        hourAdapter.submitList(weatherItem.forecast.forecastday[0].hour)
+        weekDayAdapter.submitList(weatherItem.forecast.forecastday)
 
-            myPreferences.saveLastShownCity(weatherItem.location.name)
-        }
-        is Resource.Loading -> {
-            this.pbLoading.isVisible = true
-        }
-        is Resource.Error -> {
-            this.tvError.isVisible = resource.data.isNullOrEmpty()
-            this.pbLoading.isVisible = false
-        }
+        myPreferences.saveLastShownCity(weatherItem.location.name)
     }
 }

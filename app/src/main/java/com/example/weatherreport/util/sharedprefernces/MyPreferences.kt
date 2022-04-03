@@ -12,15 +12,15 @@ class MyPreferences @Inject constructor(
 ) {
     private val prefs = context.getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
 
-    fun saveLocation(latitude: Float?, longitude: Float?) {
+    fun saveLocation(latitude: Float, longitude: Float) {
         prefs.edit().apply {
-            if (latitude == null || longitude == null) {
-                putString(Constants.SHARED_PREF_LOCATION, null)
-            } else {
-                putString(Constants.SHARED_PREF_LOCATION, "$latitude,$longitude")
-            }
+            putString(Constants.SHARED_PREF_LOCATION, "$latitude,$longitude")
             apply()
         }
+    }
+
+    fun removeSavedLocation() {
+        prefs.edit().remove(Constants.SHARED_PREF_LOCATION).apply()
     }
 
     fun getLocationOrNull(): String? =

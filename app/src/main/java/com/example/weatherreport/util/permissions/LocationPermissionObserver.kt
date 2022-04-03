@@ -46,9 +46,18 @@ class LocationPermissionObserver @Inject constructor(
 
     fun requestLocation() {
         if (checkPermission()) {
-            fusedLocationProviderClient.lastLocation.addOnCompleteListener(appCompatContext as AppCompatActivity) {
-                prefs.saveLocation(it.result.latitude.toFloat(), it.result.longitude.toFloat())
-                permissionsListener?.permissionGranted()
+            fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+                val locationString =
+                    "${location.latitude.toFloat()},${location.longitude.toFloat()}"
+                if (prefs.getLocationOrNull() == null || prefs.getLocationOrNull() != locationString) {
+                    prefs.saveLocation(location.latitude.toFloat(), location.longitude.toFloat())
+                    permissionsListener?.permissionGranted()
+
+                } else {
+                    permissionsListener?.permissionDenied()
+                }
+            }.addOnFailureListener {
+                permissionsListener?.permissionDenied()
             }
         }
     }
@@ -56,7 +65,6 @@ class LocationPermissionObserver @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         requestPermission = null
-        prefs.saveLocation(null, null)
     }
 
     override fun launch() {

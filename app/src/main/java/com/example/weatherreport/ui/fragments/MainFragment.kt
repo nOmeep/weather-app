@@ -11,9 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.weatherreport.R
 import com.example.weatherreport.databinding.FragmentMainBinding
-import com.example.weatherreport.ui.viewmodel.WeatherViewModel
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
 import com.example.weatherreport.ui.adapters.WeekWeatherAdapter
+import com.example.weatherreport.ui.viewmodel.WeatherViewModel
 import com.example.weatherreport.util.constants.Constants
 import com.example.weatherreport.util.funs.bind
 import com.example.weatherreport.util.permissions.LocationPermissionObserver
@@ -48,28 +48,29 @@ class MainFragment : Fragment(R.layout.fragment_main), PermissionsListener {
         if (!locationPermissionObserver.checkPermission()) {
             locationPermissionObserver.launch()
         }
-        locationPermissionObserver.requestLocation()
 
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
+
+        locationPermissionObserver.requestLocation()
 
         setHasOptionsMenu(true)
     }
 
     override fun permissionGranted() {
-        val lastCity = myPreferences.getLastShownCityOrNull()
-        val location = myPreferences.getLocationOrNull()
+        val currentLocation = myPreferences.getLocationOrNull()
+        val cityToShowFromCache = myPreferences.getLastShownCityOrNull() ?: Constants.DEFAULT_CITY
 
-        viewModel.updateWeather(args.cityName ?: location ?: lastCity ?: Constants.DEFAULT_CITY)
+        viewModel.updateWeather(args.cityName ?: currentLocation ?: cityToShowFromCache)
             .observe(viewLifecycleOwner) { resource ->
                 binding.bind(resource, hourAdapter, weekDayAdapter, myPreferences)
             }
     }
 
     override fun permissionDenied() {
-        val lastCity = myPreferences.getLastShownCityOrNull()
+        val cityToShowFromCache = myPreferences.getLastShownCityOrNull() ?: Constants.DEFAULT_CITY
 
-        viewModel.updateWeather(args.cityName ?: lastCity ?: Constants.DEFAULT_CITY)
+        viewModel.updateWeather(args.cityName ?: cityToShowFromCache)
             .observe(viewLifecycleOwner) { resource ->
                 binding.bind(resource, hourAdapter, weekDayAdapter, myPreferences)
             }
@@ -91,6 +92,7 @@ class MainFragment : Fragment(R.layout.fragment_main), PermissionsListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        myPreferences.removeSavedLocation()
         _binding = null
     }
 }
