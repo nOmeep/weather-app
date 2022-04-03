@@ -13,7 +13,7 @@ import com.example.weatherreport.databinding.FragmentSearchBinding
 import com.example.weatherreport.ui.adapters.CachedItemsAdapter
 import com.example.weatherreport.ui.fragments.listeners.ItemSwipeListener
 import com.example.weatherreport.ui.fragments.listeners.OnSearchListener
-import com.example.weatherreport.viewmodel.WeatherViewModel
+import com.example.weatherreport.ui.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

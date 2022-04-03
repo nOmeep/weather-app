@@ -1,30 +1,29 @@
 package com.example.weatherreport.ui.fragments
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import com.example.weatherreport.util.constants.Constants
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.weatherreport.R
 import com.example.weatherreport.databinding.FragmentMainBinding
+import com.example.weatherreport.ui.viewmodel.WeatherViewModel
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
 import com.example.weatherreport.ui.adapters.WeekWeatherAdapter
-import com.example.weatherreport.util.classes.Resource.Error
-import com.example.weatherreport.util.classes.Resource.Loading
-import com.example.weatherreport.util.funs.coordinatesToQuery
-import com.example.weatherreport.viewmodel.WeatherViewModel
+import com.example.weatherreport.util.constants.Constants
+import com.example.weatherreport.util.funs.bind
+import com.example.weatherreport.util.permissions.LocationPermissionObserver
+import com.example.weatherreport.util.permissions.PermissionsListener
+import com.example.weatherreport.util.sharedprefernces.MyPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main), PermissionsListener {
     private var _binding: FragmentMainBinding? = null
     private val binding
         get() = _binding!!
@@ -35,47 +34,44 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val hourAdapter = HourStatsAdapter()
     private val weekDayAdapter = WeekWeatherAdapter()
 
-    private lateinit var sharedPref: SharedPreferences
+    @Inject
+    lateinit var myPreferences: MyPreferences
+
+    @Inject
+    lateinit var locationPermissionObserver: LocationPermissionObserver
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentMainBinding.bind(view)
 
+        locationPermissionObserver.permissionsListener = this
+
+        if (!locationPermissionObserver.checkPermission()) {
+            locationPermissionObserver.launch()
+        }
+        locationPermissionObserver.requestLocation()
+
         binding.rvStatsPerHour.adapter = hourAdapter
         binding.rvWeekWeather.adapter = weekDayAdapter
-
-        sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
 
         setHasOptionsMenu(true)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun permissionGranted() {
+        val lastCity = myPreferences.getLastShownCityOrNull()
+        val location = myPreferences.getLocationOrNull()
 
-        val cityToShow =
-            sharedPref.getString(Constants.SHARED_PREF_CITY_KEY, null) ?: Constants.DEFAULT_CITY
-
-        viewModel.updateWeather(args.cityName, cityToShow)
+        viewModel.updateWeather(args.cityName ?: location ?: lastCity ?: Constants.DEFAULT_CITY)
             .observe(viewLifecycleOwner) { resource ->
-                binding.pbLoading.isVisible = resource is Loading
-                binding.tvError.isVisible = resource is Error && resource.data.isNullOrEmpty()
+                binding.bind(resource, hourAdapter, weekDayAdapter, myPreferences)
+            }
+    }
 
-                val weatherItem = resource.data?.firstOrNull() ?: return@observe
+    override fun permissionDenied() {
+        val lastCity = myPreferences.getLastShownCityOrNull()
 
-                binding.tvCityName.text = weatherItem.location.name
-                binding.tvTemperature.text = weatherItem.current.temp_c.toString()
-                binding.tvSummary.text = weatherItem.current.condition.text
-                binding.tvLastUpdateTime.text = weatherItem.current.last_updated
-
-                hourAdapter.submitList(weatherItem.forecast.forecastday[0].hour)
-                weekDayAdapter.submitList(weatherItem.forecast.forecastday)
-
-                binding.tvTextTimeStats.isVisible = true
-                binding.tvTextWeekWeather.isVisible = true
-
-                with(sharedPref.edit()) {
-                    putString(Constants.SHARED_PREF_CITY_KEY, weatherItem.location.name)
-                    apply()
-                }
+        viewModel.updateWeather(args.cityName ?: lastCity ?: Constants.DEFAULT_CITY)
+            .observe(viewLifecycleOwner) { resource ->
+                binding.bind(resource, hourAdapter, weekDayAdapter, myPreferences)
             }
     }
 

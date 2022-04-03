@@ -1,4 +1,4 @@
-package com.example.weatherreport.di
+package com.example.weatherreport.di.modules
 
 import android.app.Application
 import androidx.room.Room

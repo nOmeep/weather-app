@@ -4,7 +4,7 @@ import androidx.room.withTransaction
 import com.example.weatherreport.data.api.WeatherAPI
 import com.example.weatherreport.data.db.WeatherDatabase
 import com.example.weatherreport.util.classes.Wrapper
-import com.example.weatherreport.util.funs.networkBoundResource
+import com.example.weatherreport.data.db.caching.networkBoundResource
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(

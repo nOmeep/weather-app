@@ -1,4 +1,4 @@
-package com.example.weatherreport.util.classes
+package com.example.weatherreport.data.db.caching
 
 sealed class Resource<T>(
     val data: T? = null,

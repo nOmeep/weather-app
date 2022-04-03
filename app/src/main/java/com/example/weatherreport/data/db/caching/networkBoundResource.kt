@@ -1,6 +1,5 @@
-package com.example.weatherreport.util.funs
+package com.example.weatherreport.data.db.caching
 
-import com.example.weatherreport.util.classes.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
