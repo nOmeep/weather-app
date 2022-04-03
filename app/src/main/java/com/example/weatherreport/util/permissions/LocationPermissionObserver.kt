@@ -9,15 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.example.weatherreport.util.sharedprefernces.MyPreferences
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @ActivityScoped
 class LocationPermissionObserver @Inject constructor(
-    @ActivityContext private val appCompatContext: Context
+    @ActivityContext private val appCompatContext: Context,
+    private val prefs: MyPreferences
 ) : AbstractPermissionObserver(), DefaultLifecycleObserver {
     private var requestPermission: ActivityResultLauncher<Array<String>>? = null
+    private var fusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(appCompatContext)
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
@@ -31,7 +36,7 @@ class LocationPermissionObserver @Inject constructor(
                         }
                     }
                     if (granted) {
-                        permissionsListener?.permissionGranted()
+                        requestLocation()
                     } else {
                         permissionsListener?.permissionDenied()
                     }
@@ -39,18 +44,19 @@ class LocationPermissionObserver @Inject constructor(
         }
     }
 
-    override fun onStart(owner: LifecycleOwner) {
-        super.onStart(owner)
+    fun requestLocation() {
         if (checkPermission()) {
-            permissionsListener?.permissionGranted()
-        } else {
-            permissionsListener?.permissionDenied()
+            fusedLocationProviderClient.lastLocation.addOnCompleteListener(appCompatContext as AppCompatActivity) {
+                prefs.saveLocation(it.result.latitude.toFloat(), it.result.longitude.toFloat())
+                permissionsListener?.permissionGranted()
+            }
         }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         requestPermission = null
+        prefs.saveLocation(null, null)
     }
 
     override fun launch() {

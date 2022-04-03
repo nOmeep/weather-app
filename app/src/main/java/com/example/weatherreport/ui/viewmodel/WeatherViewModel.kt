@@ -1,4 +1,4 @@
-package com.example.weatherreport.ui
+package com.example.weatherreport.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -13,11 +13,11 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository
 ) : ViewModel() {
-    fun updateWeather(query: String?, cityToShow: String) =
-        repository.getCurrentCityWeather(
-            Wrapper(query ?: cityToShow),
-            BuildConfig.API_KEY
-        ).asLiveData()
+
+    fun updateWeather(query: String) = repository.getCurrentCityWeather(
+        Wrapper(query),
+        BuildConfig.API_KEY
+    ).asLiveData()
 
     fun getAllCachedItems() =
         repository.getAllCachedItems().asLiveData()
