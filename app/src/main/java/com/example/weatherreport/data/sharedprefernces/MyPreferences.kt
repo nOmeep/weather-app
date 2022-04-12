@@ -1,4 +1,4 @@
-package com.example.weatherreport.util.sharedprefernces
+package com.example.weatherreport.data.sharedprefernces
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

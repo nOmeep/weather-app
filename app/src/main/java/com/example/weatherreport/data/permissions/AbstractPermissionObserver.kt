@@ -1,4 +1,4 @@
-package com.example.weatherreport.util.permissions
+package com.example.weatherreport.data.permissions
 
 import androidx.lifecycle.LifecycleObserver
 

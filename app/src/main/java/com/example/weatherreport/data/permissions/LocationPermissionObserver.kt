@@ -1,4 +1,4 @@
-package com.example.weatherreport.util.permissions
+package com.example.weatherreport.data.permissions
 
 import android.Manifest
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.example.weatherreport.util.sharedprefernces.MyPreferences
+import com.example.weatherreport.data.sharedprefernces.MyPreferences
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped

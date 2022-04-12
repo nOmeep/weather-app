@@ -16,9 +16,9 @@ import com.example.weatherreport.ui.adapters.WeekWeatherAdapter
 import com.example.weatherreport.ui.viewmodel.WeatherViewModel
 import com.example.weatherreport.util.constants.Constants
 import com.example.weatherreport.util.funs.bind
-import com.example.weatherreport.util.permissions.LocationPermissionObserver
-import com.example.weatherreport.util.permissions.PermissionsListener
-import com.example.weatherreport.util.sharedprefernces.MyPreferences
+import com.example.weatherreport.data.permissions.LocationPermissionObserver
+import com.example.weatherreport.data.permissions.PermissionsListener
+import com.example.weatherreport.data.sharedprefernces.MyPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -6,7 +6,7 @@ import com.example.weatherreport.databinding.FragmentMainBinding
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
 import com.example.weatherreport.ui.adapters.WeekWeatherAdapter
 import com.example.weatherreport.data.db.caching.Resource
-import com.example.weatherreport.util.sharedprefernces.MyPreferences
+import com.example.weatherreport.data.sharedprefernces.MyPreferences
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
