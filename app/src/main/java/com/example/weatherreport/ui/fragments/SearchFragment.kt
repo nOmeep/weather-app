@@ -3,7 +3,6 @@ package com.example.weatherreport.ui.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -17,12 +16,7 @@ import com.example.weatherreport.ui.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search) {
-
-    private var _binding: FragmentSearchBinding? = null
-    private val binding
-        get() = _binding!!
-
+class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
     private val viewModel by viewModels<WeatherViewModel>()
 
     private val searchedItemsAdapter =
@@ -33,8 +27,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = FragmentSearchBinding.bind(view)
-
         binding.rvCachedItems.adapter = searchedItemsAdapter
 
         val currentList = mutableListOf<WeatherItem>()
@@ -63,10 +55,5 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             binding.tvEmptyList.isVisible = cachedResource.isEmpty()
             searchedItemsAdapter.submitList(currentList)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }
