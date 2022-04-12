@@ -9,5 +9,5 @@ import com.example.weatherreport.data.api.items.typeconverters.ForecastTypeConve
 @Database(entities = [WeatherItem::class], version = 1)
 @TypeConverters(ForecastTypeConverter::class)
 abstract class WeatherDatabase : RoomDatabase() {
-    abstract fun weatherItemsDAO(): WeatherItemsDAO
+    abstract fun weatherItemsDAO(): WeatherItemsDao
 }

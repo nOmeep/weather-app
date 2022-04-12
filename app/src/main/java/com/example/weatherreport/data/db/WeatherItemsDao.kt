@@ -8,7 +8,7 @@ import com.example.weatherreport.data.api.items.WeatherItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface WeatherItemsDAO {
+interface WeatherItemsDao {
     @Query("select * from last_cached_page")
     fun getAllCachedItems(): Flow<List<WeatherItem>>
 
@@ -18,6 +18,6 @@ interface WeatherItemsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun cacheWeatherItem(item: WeatherItem)
 
-    @Query("delete from last_cached_page where name = :name")
+    @Query("delete from last_cached_page where LOWER(name) = LOWER(:name)")
     suspend fun deleteCityByName(name: String)
 }
