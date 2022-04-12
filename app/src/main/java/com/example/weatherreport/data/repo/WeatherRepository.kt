@@ -1,7 +1,9 @@
 package com.example.weatherreport.data.repo
 
 import androidx.room.withTransaction
+import com.example.weatherreport.BuildConfig
 import com.example.weatherreport.data.api.WeatherAPI
+import com.example.weatherreport.data.api.items.WeatherItem
 import com.example.weatherreport.data.db.WeatherDatabase
 import com.example.weatherreport.data.db.caching.networkBoundResource
 import com.example.weatherreport.util.classes.Wrapper
@@ -10,27 +12,34 @@ import javax.inject.Inject
 class WeatherRepository @Inject constructor(
     private val api: WeatherAPI,
     private val db: WeatherDatabase,
-) {
+) : WeatherRepositoryInterface {
     private val weatherDAO = db.weatherItemsDAO()
 
-    fun getCurrentCityWeather(cityName: Wrapper<String>, key: String) = networkBoundResource(
+    override fun getWeather(name: Wrapper<String>) = networkBoundResource(
         query = {
-            weatherDAO.getCityByName(cityName.value)
+            getCachedItemByName(name.value)
         },
         fetch = {
-            api.getWeather(key, cityName.value)
+            fetchItemFromNetworkByName(name.value)
         },
         saveFetchResult = { weatherItem ->
             db.withTransaction {
-                weatherDAO.deleteCityByName(cityName.value)
-                cityName.changeValue(weatherItem.location.name)
-                weatherDAO.deleteCityByName(cityName.value)
-                weatherDAO.cacheWeatherItem(weatherItem)
+                deleteItemByName(name.value)
+                name.changeValue(weatherItem.location.name)
+                deleteItemByName(name.value)
+                insertItemInDatabase(weatherItem)
             }
         }
     )
 
-    fun getAllCachedItems() = weatherDAO.getAllCachedItems()
+    override fun getCachedItemByName(name: String) = weatherDAO.getCityByName(name)
 
-    suspend fun deleteItemByName(cityName: String) = weatherDAO.deleteCityByName(cityName)
+    override fun getAllCachedItems() = weatherDAO.getAllCachedItems()
+
+    override suspend fun fetchItemFromNetworkByName(name: String) =
+        api.getWeather(BuildConfig.API_KEY, name)
+
+    override suspend fun insertItemInDatabase(item: WeatherItem) = weatherDAO.cacheWeatherItem(item)
+
+    override suspend fun deleteItemByName(name: String) = weatherDAO.deleteCityByName(name)
 }

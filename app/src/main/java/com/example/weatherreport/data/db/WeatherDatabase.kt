@@ -9,5 +9,9 @@ import com.example.weatherreport.data.api.items.typeconverters.ForecastTypeConve
 @Database(entities = [WeatherItem::class], version = 1)
 @TypeConverters(ForecastTypeConverter::class)
 abstract class WeatherDatabase : RoomDatabase() {
+    companion object {
+        const val DATABASE_NAME = "weather_database"
+    }
+
     abstract fun weatherItemsDAO(): WeatherItemsDao
 }
