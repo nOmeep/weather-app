@@ -51,3 +51,7 @@ fun FragmentMainBinding.bind(
 fun String.capitalizeFirstLetter(): String {
     return this.replaceFirstChar { it.uppercase() }
 }
+
+fun <T> Pair<T, T>.concatToStringWithSeparator(separator: String): String {
+    return "${this.first}$separator${this.second}"
+}
