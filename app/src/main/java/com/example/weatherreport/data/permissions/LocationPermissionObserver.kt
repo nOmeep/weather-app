@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.weatherreport.data.sharedprefernces.MyPreferences
+import com.example.weatherreport.util.funs.concatToStringWithSeparator
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
@@ -48,9 +49,9 @@ class LocationPermissionObserver @Inject constructor(
         if (checkPermission()) {
             fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
                 val locationString =
-                    "${location.latitude.toFloat()},${location.longitude.toFloat()}"
+                    (location.latitude to location.longitude).concatToStringWithSeparator(",")
                 if (prefs.getLocationOrNull() == null || prefs.getLocationOrNull() != locationString) {
-                    prefs.saveLocation(location.latitude.toFloat(), location.longitude.toFloat())
+                    prefs.saveLocation(location.latitude, location.longitude)
                     permissionsListener?.permissionGranted()
 
                 } else {

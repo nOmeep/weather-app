@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.example.weatherreport.util.constants.Constants
+import com.example.weatherreport.util.funs.concatToStringWithSeparator
 
 @Singleton
 class MyPreferences @Inject constructor(
@@ -12,9 +13,12 @@ class MyPreferences @Inject constructor(
 ) {
     private val prefs = context.getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
 
-    fun saveLocation(latitude: Float, longitude: Float) {
+    fun saveLocation(latitude: Double, longitude: Double) {
         prefs.edit().apply {
-            putString(Constants.SHARED_PREF_LOCATION, "$latitude,$longitude")
+            putString(
+                Constants.SHARED_PREF_LOCATION,
+                (latitude to longitude).concatToStringWithSeparator(",")
+            )
             apply()
         }
     }

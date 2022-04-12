@@ -25,7 +25,6 @@ import com.google.common.truth.Truth.assertThat
 @SmallTest
 @ExperimentalCoroutinesApi
 class WeatherItemsDaoTest {
-
     private lateinit var database: WeatherDatabase
     private lateinit var dao: WeatherItemsDao
     private lateinit var weatherItemForTest: WeatherItem
@@ -96,15 +95,15 @@ class WeatherItemsDaoTest {
 
         val listOfItems = dao.getCityByName(weatherItemForTest.location.name).first()
 
-        assertThat(listOfItems.isNotEmpty()).isTrue()
-        assertThat(listOfItems.first()).isEqualTo(weatherItemForTest)
+        assertThat(listOfItems).hasSize(1)
+        assertThat(listOfItems).contains(weatherItemForTest)
     }
 
     @Test
     fun getNullWhenThereIsNoItemWithSuchName() = runTest {
         val itemsList = dao.getCityByName("SampleName").first()
 
-        assertThat(itemsList.isEmpty()).isTrue()
+        assertThat(itemsList).isEmpty()
     }
 
     @Test
@@ -114,8 +113,8 @@ class WeatherItemsDaoTest {
 
         val cachedItemsList = dao.getAllCachedItems().first()
 
-        assertThat(cachedItemsList.isNotEmpty()).isTrue()
         assertThat(cachedItemsList.size).isEqualTo(1)
+        assertThat(cachedItemsList).contains(weatherItemForTest)
     }
 
     @Test
@@ -125,7 +124,7 @@ class WeatherItemsDaoTest {
 
         val cachedList = dao.getAllCachedItems().first()
 
-        assertThat(cachedList.isEmpty()).isTrue()
+        assertThat(cachedList).isEmpty()
     }
 
     @Test
@@ -134,7 +133,8 @@ class WeatherItemsDaoTest {
         dao.deleteCityByName(weatherItemForTest.location.name.lowercase())
 
         val cachedList = dao.getAllCachedItems().first()
-        assertThat(cachedList.isEmpty()).isTrue()
+
+        assertThat(cachedList).isEmpty()
     }
 
     @Test
@@ -143,6 +143,7 @@ class WeatherItemsDaoTest {
         dao.deleteCityByName(weatherItemForTest.location.name.uppercase())
 
         val cachedList = dao.getAllCachedItems().first()
-        assertThat(cachedList.isEmpty()).isTrue()
+
+        assertThat(cachedList).isEmpty()
     }
 }
