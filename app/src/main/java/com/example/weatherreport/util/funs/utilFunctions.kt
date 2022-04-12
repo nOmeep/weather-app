@@ -34,7 +34,6 @@ fun FragmentMainBinding.bind(
     val weatherItem = resource.data?.firstOrNull()
     if (weatherItem != null) {
         this.pbLoading.isVisible = resource is Resource.Loading
-        this.tvError.isVisible = resource is Resource.Error && resource.data.isEmpty()
 
         this.tvCityName.text = weatherItem.location.name
         this.tvTemperature.text = weatherItem.current.temp_c.toString()
@@ -46,6 +45,8 @@ fun FragmentMainBinding.bind(
 
         myPreferences.saveLastShownCity(weatherItem.location.name)
     }
+
+    this.tvError.isVisible = resource is Resource.Error && weatherItem == null
 }
 
 fun String.capitalizeFirstLetter(): String {

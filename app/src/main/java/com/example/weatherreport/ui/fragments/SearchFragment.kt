@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.example.weatherreport.R
 import com.example.weatherreport.data.api.items.WeatherItem
 import com.example.weatherreport.databinding.FragmentSearchBinding
 import com.example.weatherreport.ui.adapters.CachedItemsAdapter
