@@ -47,3 +47,7 @@ fun FragmentMainBinding.bind(
         myPreferences.saveLastShownCity(weatherItem.location.name)
     }
 }
+
+fun String.capitalizeFirstLetter(): String {
+    return this.replaceFirstChar { it.uppercase() }
+}
