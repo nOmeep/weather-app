@@ -5,10 +5,10 @@
     <string name="WeatherHoleDay">Погода в течение дня</string>
     <string name="WeekWeatherText">Погода на неделю</string>
     <string name="choose_city">Выберите город</string>
-    <string name="enter_city_name">Введите название города</string>
     <string name="change_place">Изменить место</string>
     <string name="empty_list_start_search">Пока нет ни одного города\n Начните поиск</string>
     <string name="error_check_internet_connection">Что-то пошло не так, проверьте подключение к интернету</string>
     <string name="temperature">Температура:</string>
     <string name="feelslike">Ощущается:</string>
+    <string name="enter_city_name">Введите название города</string>
 </resources>

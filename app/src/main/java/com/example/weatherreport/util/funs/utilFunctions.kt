@@ -1,6 +1,10 @@
 package com.example.weatherreport.util.funs
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
 import com.example.weatherreport.data.api.items.WeatherItem
 import com.example.weatherreport.databinding.FragmentMainBinding
 import com.example.weatherreport.ui.adapters.HourStatsAdapter
@@ -55,4 +59,10 @@ fun String.capitalizeFirstLetter(): String {
 
 fun <T> Pair<T, T>.concatToStringWithSeparator(separator: String): String {
     return "${this.first}$separator${this.second}"
+}
+
+fun FragmentActivity.hideSoftKeyboard(editText: EditText) {
+    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply {
+        hideSoftInputFromWindow(editText.windowToken, 0)
+    }
 }

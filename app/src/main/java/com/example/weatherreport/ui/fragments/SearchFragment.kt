@@ -12,6 +12,7 @@ import com.example.weatherreport.ui.adapters.CachedItemsAdapter
 import com.example.weatherreport.ui.fragments.listeners.ItemSwipeListener
 import com.example.weatherreport.ui.fragments.listeners.OnSearchListener
 import com.example.weatherreport.ui.viewmodel.WeatherViewModel
+import com.example.weatherreport.util.funs.hideSoftKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +31,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
         val currentList = mutableListOf<WeatherItem>()
 
-        binding.searchView.setOnQueryTextListener(OnSearchListener { query: String ->
+        binding.etSearch.setOnFocusChangeListener { _, isFocused ->
+            if (!isFocused) {
+                requireActivity().hideSoftKeyboard(binding.etSearch)
+            }
+        }
+
+        binding.etSearch.setOnKeyListener(OnSearchListener { query: String ->
             findNavController().navigate(
                 SearchFragmentDirections.fromSearchFragmentToMainFragment(query)
             )
